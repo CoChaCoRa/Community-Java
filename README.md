@@ -1,7 +1,7 @@
 ## BBS demo
 # 资料
 - [Spring](https://spring.io/guides/gs/serving-web-content/)
-- [Bootstrap](https://v3.bootcss.com/)
+- [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
 
 
 # 工具
