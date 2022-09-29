@@ -1,7 +1,9 @@
 package com.example.community.controller;
 
+import com.example.community.Model.User;
 import com.example.community.dto.AccessTokenDTO;
 import com.example.community.dto.GithubUser;
+import com.example.community.mapper.UserMapper;
 import com.example.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
@@ -22,7 +25,8 @@ public class AuthorizeController {
     private String clientSecret;
     @Value("${github.client.redirect_uri}")
     private String redirectUri;
-
+    @Autowired
+    UserMapper userMapper;
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code, HttpServletRequest request) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
@@ -31,10 +35,17 @@ public class AuthorizeController {
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser user = githubProvider.getUser(accessToken);
-        if (user != null) {
+        GithubUser githubUser = githubProvider.getUser(accessToken);
+        if (githubUser != null) {
             // 登录成功，写cookie和session
-            request.getSession().setAttribute("user", user);
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setAccountId(githubUser.getId());
+            user.setName(githubUser.getName());
+            user.setGmtCreated(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreated());
+            userMapper.insert(user);
+            request.getSession().setAttribute("user", githubUser);
         } else {
             // 登录失败，重新登录
         }
