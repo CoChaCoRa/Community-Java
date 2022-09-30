@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>BBS demo</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/community.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">BBS demo</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">首页</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">分区</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            其他
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      </ul>
+      <ul class="navbar-nav me-4 mb-2 mb-lg-0">
+        <li class="nav-item" th:if="${session.user == null}">
+          <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=7919fd8c770c7c7ab699&redirect_uri=http://localhost:8087/callback&scope=user&state=1">
+            登录
+          </a>
+        </li>
+        <li class="nav-item dropdown" th:unless="${session.user == null}">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${session.user.getName()}">
+          </a>
+          <ul class="dropdown-menu" style="left: auto;right: 0;">
+            <li><a class="dropdown-item" href="#">个人资料</a></li>
+            <li><a class="dropdown-item" href="#">消息中心</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">退出登录</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid main">
+  <div class="row">
+    <div class="col-xl-9 col-12">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+          <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
+          <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+        </svg>
+        发起问题
+      </h2>
+      <hr>
+      <form action="">
+        <div class="mb-3">
+          <label for="inputQuestion" class="form-label">问题标题</label>
+          <input type="text" class="form-control" id="inputQuestion" aria-describedby="titleHelp">
+          <div id="titleHelp" class="form-text">标题尽量简洁清晰</div>
+        </div>
+        <div class="mb-3">
+          <label for="FormControlDescription1" class="form-label">问题描述</label>
+          <textarea class="form-control" id="FormControlDescription1" rows="10"></textarea>
+        </div>
+      </form>
+      <button type="button" class="btn btn-success btn-commit">提交</button>
+    </div>
+    <div class="col-xl-3 col-12">
+      <h3>问题发布规范</h3>
+      一、维持现状，保持不变。<br>
+      二、制定新得中之人信息、塔照管制标准。<br>
+      （比较符合大家的理想要求，但是制定大家都满意的标准是不可能的，所以难免会影响到部分吧友的正常讨论。吧务的处理标准也不能完全统一，可能会出现争议。）<br>
+      三、对真人图片镇楼的内容进行“一刀切”管理，对帖子二楼及以下的塔照放宽。<br>
+      （吧务操作比较方便，也可以对大家一视同仁，但是难免会很大程度上限制大家发帖类型。）<br>
+      四、其他意见。<br>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
