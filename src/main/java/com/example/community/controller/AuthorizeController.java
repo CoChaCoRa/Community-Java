@@ -48,6 +48,8 @@ public class AuthorizeController {
             user.setName(githubUser.getName());
             user.setGmtCreated(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreated());
+            user.setEmail(githubUser.getEmail());
+            user.setAvatarUrl(githubUser.getAvatar_url());
             userMapper.insert(user);
             response.addCookie(new Cookie("token", token));
         } else {
