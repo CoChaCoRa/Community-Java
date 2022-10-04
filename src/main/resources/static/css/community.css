@@ -10,3 +10,13 @@ body {
     float: right;
     margin-bottom: 15px;
 }
+
+.avatar {
+    width: 64px;
+    border-radius: 15px;
+}
+
+.list-text-info {
+    font-size: 13px;
+    color: #999;
+}

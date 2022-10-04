@@ -1,9 +1,10 @@
 ## BBS demo
 # 资料
-- [Spring](https://spring.io/guides/gs/serving-web-content/)
+- [Spring Web](https://spring.io/guides/gs/serving-web-content/)
 - [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
+- [Bootstrap 中文文档](https://v5.bootcss.com/docs/5.1/getting-started/introduction/)
 - [MySQL](https://www.runoob.com/mysql/mysql-tutorial.html)
-- [Git Oauth](https://docs.github.com/cn/developers/apps/building-oauth-apps/authorizing-oauth-apps)
+- [Git OAuth](https://docs.github.com/cn/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [H2 Database](https://www.h2database.com/html/main.html)
 
 # 工具
