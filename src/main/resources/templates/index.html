@@ -42,6 +42,9 @@
             登录
           </a>
         </li>
+        <li class="nav-item" th:unless="${session.user == null}">
+          <a class="nav-link" href="/post">发布</a>
+        </li>
         <li class="nav-item dropdown" th:unless="${session.user == null}">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${session.user.getName()}">
           </a>
