@@ -1,6 +1,7 @@
 ## BBS demo
 # 资料
 - [Spring Web](https://spring.io/guides/gs/serving-web-content/)
+- [Thymeleaf](https://www.thymeleaf.org/documentation.html)
 - [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
 - [Bootstrap 中文文档](https://v5.bootcss.com/docs/5.1/getting-started/introduction/)
 - [MySQL](https://www.runoob.com/mysql/mysql-tutorial.html)
