@@ -1,19 +1,17 @@
 package com.example.community.controller;
 
-import com.example.community.Model.Post;
 import com.example.community.Model.User;
-import com.example.community.dto.PostDTO;
-import com.example.community.mapper.PostMapper;
+import com.example.community.dto.PaginationDTO;
 import com.example.community.mapper.UserMapper;
 import com.example.community.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class IndexController {
@@ -26,7 +24,9 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-                        Model model) {
+                        Model model,
+                        @RequestParam(name="page", defaultValue = "1") Integer pageIndex,
+                        @RequestParam(name="size", defaultValue = "3") Integer pageSize) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0)
             for (Cookie cookie : cookies) {
@@ -40,8 +40,8 @@ public class IndexController {
                 }
             }
 
-        List<PostDTO> postList = postService.list();
-        model.addAttribute("posts",postList);
+        PaginationDTO paginationDTO = postService.getList(pageIndex,pageSize);
+        model.addAttribute("pagination",paginationDTO);
 
         return "index";
     }

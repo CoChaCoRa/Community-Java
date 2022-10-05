@@ -13,5 +13,8 @@ public interface PostMapper {
     public void create(Post post);
 
     @Select("select * from posts")
-    List<Post> list();
+    List<Post> getList();
+
+    @Select("select count(*) from posts")
+    Integer getCount();
 }

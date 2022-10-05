@@ -72,7 +72,7 @@
         帖子
       </h2>
       <hr>
-      <div class="d-flex list-info"  th:each="post : ${posts}">
+      <div class="d-flex list-info"  th:each="post : ${pagination.posts}">
         <div class="flex-shrink-0">
           <img th:src="${post.user.avatarUrl}" class="avatar">
         </div>
@@ -112,6 +112,33 @@
           </div>
         </div>
       </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item" th:if="${pagination.showFirst}">
+            <a class="page-link" href="/?page=1" aria-label="First">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item" th:if="${pagination.showPrevious}">
+            <a class="page-link" th:href="@{/(page=${pagination.currentPage - 1})}" aria-label="Previous">
+              <span aria-hidden="true">&lt;</span>
+            </a>
+          </li>
+          <li class="page-item" th:each="page : ${pagination.pages}" th:class="${pagination.currentPage == page}? 'active' : ''">
+            <a class="page-link" th:href="@{/(page=${page})}" th:text="${page}"></a>
+          </li>
+          <li class="page-item" th:if="${pagination.showNext}">
+            <a class="page-link" th:href="@{/(page=${pagination.currentPage + 1})}" aria-label="Next">
+              <span aria-hidden="true">&gt;</span>
+            </a>
+          </li>
+          <li class="page-item" th:if="${pagination.showEnd}">
+            <a class="page-link" th:href="@{/(page=${pagination.totalPages})}" aria-label="End">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
     <div class="col-xl-3 col-12">
       <h3>热门话题</h3>
