@@ -11,8 +11,8 @@
 
 <div th:insert="~{navigation :: nav}"></div>
 
-<div class="container-fluid main">
-  <div class="row">
+<div class="container-fluid">
+  <div class="row" style="margin: 30px;">
     <div class="col-xl-9 col-12">
       <h2>
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
@@ -27,7 +27,7 @@
           <img th:src="${post.user.avatarUrl}" class="avatar">
         </div>
         <div class="flex-grow-1 ms-3">
-          <h5 th:text="${post.title}"></h5>
+          <h5 ><a th:text="${post.title}" th:href="@{'/postDetail/'+${post.id}}" class="post-href"></a></h5>
           <div class="d-flex flex-row bd-highlight">
             <div class="p-2 bd-highlight">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">

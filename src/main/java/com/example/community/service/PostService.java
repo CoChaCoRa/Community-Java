@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class PostService {
 
@@ -26,19 +27,8 @@ public class PostService {
         List<Post> posts = postMapper.getList();
         Integer totalCount = postMapper.getCount();
 
-        PaginationDTO paginationDTO = new PaginationDTO();
-        paginationDTO.setPaginationDTO(totalCount, pageIndex, pageSize);
+        PaginationDTO paginationDTO = createPaginationDTO(posts, totalCount, pageIndex, pageSize);
 
-        List<PostDTO> postDTOList = new ArrayList<>();
-        for (Post post : posts) {
-            User user = userMapper.findById(post.getCreator());
-            PostDTO postDTO = new PostDTO();
-            BeanUtils.copyProperties(post, postDTO);
-            postDTO.setUser(user);
-            postDTOList.add(postDTO);
-        }
-
-        paginationDTO.setPosts(postDTOList);
         return paginationDTO;
     }
 
@@ -47,15 +37,37 @@ public class PostService {
         List<Post> posts = postMapper.getListByCreator(id);
         Integer totalCount = postMapper.getCountByCreator(id);
 
+        PaginationDTO paginationDTO = createPaginationDTO(posts, totalCount, pageIndex, pageSize);
+
+        return paginationDTO;
+    }
+
+    public PostDTO getPostById(Integer id) {
+        Post post = postMapper.getPostById(id);
+        PostDTO postDTO = createPostDTO(post);
+
+        return postDTO;
+    }
+
+    public PostDTO createPostDTO(Post post) {
+        User user = userMapper.findById(post.getCreator());
+        PostDTO postDTO = new PostDTO();
+        BeanUtils.copyProperties(post, postDTO);
+        postDTO.setUser(user);
+
+        return postDTO;
+    }
+
+    public PaginationDTO createPaginationDTO(List<Post> posts,
+                                             Integer totalCount,
+                                             Integer pageIndex,
+                                             Integer pageSize) {
         PaginationDTO paginationDTO = new PaginationDTO();
         paginationDTO.setPaginationDTO(totalCount, pageIndex, pageSize);
 
         List<PostDTO> postDTOList = new ArrayList<>();
         for (Post post : posts) {
-            User user = userMapper.findById(post.getCreator());
-            PostDTO postDTO = new PostDTO();
-            BeanUtils.copyProperties(post, postDTO);
-            postDTO.setUser(user);
+            PostDTO postDTO = createPostDTO(post);
             postDTOList.add(postDTO);
         }
 
