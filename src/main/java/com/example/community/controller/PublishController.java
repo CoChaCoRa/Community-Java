@@ -2,12 +2,15 @@ package com.example.community.controller;
 
 import com.example.community.Model.Post;
 import com.example.community.Model.User;
+import com.example.community.dto.PostDTO;
 import com.example.community.mapper.PostMapper;
 import com.example.community.mapper.UserMapper;
+import com.example.community.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,9 +20,18 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
 
     @Autowired
-    private PostMapper postMapper;
-    @Autowired
-    private UserMapper userMapper;
+    private PostService postService;
+
+    @GetMapping("/post/{id}")
+    public String edit(@PathVariable("id") Integer id,
+                       Model model) {
+        PostDTO post = postService.getPostById(id);
+        model.addAttribute("title", post.getTitle());
+        model.addAttribute("description", post.getDescription());
+        model.addAttribute("tag", post.getTag());
+
+        return "post";
+    }
 
     @GetMapping("/post")
     public String post() {
@@ -31,6 +43,7 @@ public class PublishController {
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("tag") String tag,
+            @RequestParam(value = "id") Integer id,
             HttpServletRequest request,
             Model model
     ) {
@@ -61,9 +74,9 @@ public class PublishController {
         post.setDescription(description);
         post.setTag(tag);
         post.setCreator(user.getId());
-        post.setGmtCreate(System.currentTimeMillis());
-        post.setGmtModified(post.getGmtCreate());
-        postMapper.create(post);
+        post.setId(id);
+        postService.createOrUpdate(post);
+//        postMapper.create(post);
         return "redirect:/";
     }
 }

@@ -1,10 +1,7 @@
 package com.example.community.mapper;
 
 import com.example.community.Model.Post;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -27,4 +24,7 @@ public interface PostMapper {
 
     @Select("select * from posts where id=#{id}")
     Post getPostById(@Param("id") Integer id);
+
+    @Update("update posts set (title,description,tag,gmt_modified) = (#{title},#{description},#{tag},#{gmtModified}) where id = #{id}")
+    void updateById(Post post);
 }

@@ -74,4 +74,15 @@ public class PostService {
         paginationDTO.setPosts(postDTOList);
         return paginationDTO;
     }
+
+    public void createOrUpdate(Post post) {
+        if(post.getId() == null) {
+            post.setGmtCreate(System.currentTimeMillis());
+            post.setGmtModified(post.getGmtCreate());
+            postMapper.create(post);
+        } else {
+            post.setGmtModified(System.currentTimeMillis());
+            postMapper.updateById(post);
+        }
+    }
 }
