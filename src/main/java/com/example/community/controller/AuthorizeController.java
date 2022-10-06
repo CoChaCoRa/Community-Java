@@ -3,7 +3,6 @@ package com.example.community.controller;
 import com.example.community.Model.User;
 import com.example.community.dto.AccessTokenDTO;
 import com.example.community.dto.GithubUser;
-import com.example.community.mapper.UserMapper;
 import com.example.community.provider.GithubProvider;
 import com.example.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,7 @@ public class AuthorizeController {
     private String redirectUri;
     @Autowired
     UserService userService;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            HttpServletResponse response) {
@@ -54,6 +54,17 @@ public class AuthorizeController {
         } else {
             // 登录失败，重新登录
         }
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+        Cookie newCookie = new Cookie("token", null);
+        newCookie.setMaxAge(0);
+        response.addCookie(newCookie);
+
         return "redirect:/";
     }
 }
