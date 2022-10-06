@@ -1,5 +1,6 @@
 package com.example.community.dto;
 
+import com.github.pagehelper.PageInfo;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class PaginationDTO {
 
         // 添加当前页的前3页和后3页的index（如果有）
         pages.add(currentPage);
-        for(int i = 1; i <= 3; i++) {
+        for(int i = 1; i <= 2; i++) {
             if(currentPage - i > 0) {
                 pages.add(0,currentPage-i);
             }

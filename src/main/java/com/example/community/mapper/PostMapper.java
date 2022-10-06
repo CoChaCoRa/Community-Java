@@ -3,6 +3,7 @@ package com.example.community.mapper;
 import com.example.community.Model.Post;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -17,4 +18,10 @@ public interface PostMapper {
 
     @Select("select count(*) from posts")
     Integer getCount();
+
+    @Select("select * from posts where creator=#{id}")
+    List<Post> getListByCreator(@Param("id") Integer id);
+
+    @Select("select count(*) from posts where creator=#{id}")
+    Integer getCountByCreator(@Param("id") Integer id);
 }
