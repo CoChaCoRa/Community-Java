@@ -5,6 +5,7 @@ import com.example.community.dto.AccessTokenDTO;
 import com.example.community.dto.GithubUser;
 import com.example.community.mapper.UserMapper;
 import com.example.community.provider.GithubProvider;
+import com.example.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,7 @@ public class AuthorizeController {
     @Value("${github.client.redirect_uri}")
     private String redirectUri;
     @Autowired
-    UserMapper userMapper;
+    UserService userService;
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            HttpServletResponse response) {
@@ -46,11 +47,9 @@ public class AuthorizeController {
             user.setToken(token);
             user.setAccountId(githubUser.getId());
             user.setName(githubUser.getName());
-            user.setGmtCreated(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreated());
             user.setEmail(githubUser.getEmail());
             user.setAvatarUrl(githubUser.getAvatar_url());
-            userMapper.insert(user);
+            userService.insertOrUpdate(user);
             response.addCookie(new Cookie("token", token));
         } else {
             // 登录失败，重新登录
