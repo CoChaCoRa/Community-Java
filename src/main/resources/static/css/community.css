@@ -4,9 +4,7 @@ body {
 
 .main {
     margin: 20px 10px;
-    background-color: white;
     padding: 20px;
-    border-radius: 10px;
 }
 
 .btn-commit {
