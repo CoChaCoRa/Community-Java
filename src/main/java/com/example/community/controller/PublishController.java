@@ -41,7 +41,7 @@ public class PublishController {
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("tag") String tag,
-            @RequestParam(value = "id") Integer id,
+            @RequestParam(value = "id",required = false) Integer id,
             HttpServletRequest request,
             Model model
     ) {
@@ -74,7 +74,6 @@ public class PublishController {
         post.setCreator(user.getId());
         post.setId(id);
         postService.createOrUpdate(post);
-//        postMapper.create(post);
         return "redirect:/";
     }
 }

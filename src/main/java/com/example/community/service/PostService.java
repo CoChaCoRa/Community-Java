@@ -1,6 +1,7 @@
 package com.example.community.service;
 
 import com.example.community.model.Post;
+import com.example.community.model.PostExample;
 import com.example.community.model.User;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.dto.PostDTO;
@@ -25,8 +26,8 @@ public class PostService {
 
     public PaginationDTO getList(Integer pageIndex, Integer pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
-        List<Post> posts = postMapper.getList();
-        Integer totalCount = postMapper.getCount();
+        List<Post> posts = postMapper.selectByExample(new PostExample());
+        long totalCount = postMapper.countByExample(new PostExample());
 
         PaginationDTO paginationDTO = createPaginationDTO(posts, totalCount, pageIndex, pageSize);
 
@@ -35,8 +36,14 @@ public class PostService {
 
     public PaginationDTO getListByCreator(Integer id, Integer pageIndex, Integer pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
-        List<Post> posts = postMapper.getListByCreator(id);
-        Integer totalCount = postMapper.getCountByCreator(id);
+//        List<Post> posts = postMapper.getListByCreator(id);
+        PostExample postExample = new PostExample();
+        postExample.createCriteria().andCreatorEqualTo(id);
+        List<Post> posts = postMapper.selectByExample(postExample);
+//        Integer totalCount = postMapper.getCountByCreator(id);
+        postExample.clear();
+        postExample.createCriteria().andCreatorEqualTo(id);
+        long totalCount = postMapper.countByExample(postExample);
 
         PaginationDTO paginationDTO = createPaginationDTO(posts, totalCount, pageIndex, pageSize);
 
@@ -44,8 +51,11 @@ public class PostService {
     }
 
     public PostDTO getPostById(Integer id) {
-        Post post = postMapper.getPostById(id);
-        PostDTO postDTO = createPostDTO(post);
+//        Post post = postMapper.getPostById(id);
+        PostExample postExample = new PostExample();
+        postExample.createCriteria().andIdEqualTo(id);
+        List<Post> posts = postMapper.selectByExample(postExample);
+        PostDTO postDTO = createPostDTO(posts.get(0));
 
         return postDTO;
     }
@@ -63,7 +73,7 @@ public class PostService {
     }
 
     public PaginationDTO createPaginationDTO(List<Post> posts,
-                                             Integer totalCount,
+                                             long totalCount,
                                              Integer pageIndex,
                                              Integer pageSize) {
         PaginationDTO paginationDTO = new PaginationDTO();
@@ -83,10 +93,11 @@ public class PostService {
         if(post.getId() == null) {
             post.setGmtCreate(System.currentTimeMillis());
             post.setGmtModified(post.getGmtCreate());
-            postMapper.create(post);
+            postMapper.insertSelective(post);
         } else {
             post.setGmtModified(System.currentTimeMillis());
-            postMapper.updateById(post);
+//            postMapper.updateById(post);
+            postMapper.updateByPrimaryKeySelective(post);
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.community.dto;
 
-import com.github.pagehelper.PageInfo;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -17,8 +16,8 @@ public class PaginationDTO {
     private Integer totalPages;
     private List<Integer> pages = new ArrayList<>();
 
-    public void setPaginationDTO(Integer totalCount, Integer pageIndex, Integer pageSize){
-        this.totalPages = Math.ceilDiv(totalCount,pageSize);
+    public void setPaginationDTO(Long totalCount, Integer pageIndex, Integer pageSize){
+        this.totalPages = Math.toIntExact(Math.ceilDiv(totalCount, pageSize));
         if(pageIndex < 1) pageIndex = 1;
         if(pageIndex > totalPages) pageIndex = totalPages;
         this.currentPage = pageIndex;
