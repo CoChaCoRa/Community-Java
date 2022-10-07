@@ -1,11 +1,12 @@
 package com.example.community.service;
 
-import com.example.community.Model.Post;
-import com.example.community.Model.User;
+import com.example.community.model.Post;
+import com.example.community.model.User;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.dto.PostDTO;
 import com.example.community.mapper.PostMapper;
 import com.example.community.mapper.UserMapper;
+import com.example.community.model.UserExample;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,10 @@ public class PostService {
     }
 
     public PostDTO createPostDTO(Post post) {
-        User user = userMapper.findById(post.getCreator());
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andIdEqualTo(post.getCreator());
+        List<User> users = userMapper.selectByExample(userExample);
+        User user = users.get(0);
         PostDTO postDTO = new PostDTO();
         BeanUtils.copyProperties(post, postDTO);
         postDTO.setUser(user);

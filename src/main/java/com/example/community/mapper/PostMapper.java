@@ -1,6 +1,6 @@
 package com.example.community.mapper;
 
-import com.example.community.Model.Post;
+import com.example.community.model.Post;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

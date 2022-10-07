@@ -1,6 +1,5 @@
 package com.example.community.controller;
 
-import com.example.community.Model.User;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.mapper.UserMapper;
 import com.example.community.service.PostService;
@@ -10,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller

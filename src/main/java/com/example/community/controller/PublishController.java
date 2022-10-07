@@ -1,10 +1,8 @@
 package com.example.community.controller;
 
-import com.example.community.Model.Post;
-import com.example.community.Model.User;
+import com.example.community.model.Post;
+import com.example.community.model.User;
 import com.example.community.dto.PostDTO;
-import com.example.community.mapper.PostMapper;
-import com.example.community.mapper.UserMapper;
 import com.example.community.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
