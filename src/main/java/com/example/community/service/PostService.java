@@ -1,5 +1,7 @@
 package com.example.community.service;
 
+import com.example.community.Exception.CustomizedErrorCode;
+import com.example.community.Exception.CustomizedException;
 import com.example.community.model.Post;
 import com.example.community.model.PostExample;
 import com.example.community.model.User;
@@ -7,7 +9,6 @@ import com.example.community.dto.PaginationDTO;
 import com.example.community.dto.PostDTO;
 import com.example.community.mapper.PostMapper;
 import com.example.community.mapper.UserMapper;
-import com.example.community.model.UserExample;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,9 @@ public class PostService {
 
     public PaginationDTO getListByCreator(Integer id, Integer pageIndex, Integer pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
-//        List<Post> posts = postMapper.getListByCreator(id);
         PostExample postExample = new PostExample();
         postExample.createCriteria().andCreatorEqualTo(id);
         List<Post> posts = postMapper.selectByExample(postExample);
-//        Integer totalCount = postMapper.getCountByCreator(id);
         postExample.clear();
         postExample.createCriteria().andCreatorEqualTo(id);
         long totalCount = postMapper.countByExample(postExample);
@@ -51,20 +50,15 @@ public class PostService {
     }
 
     public PostDTO getPostById(Integer id) {
-//        Post post = postMapper.getPostById(id);
-        PostExample postExample = new PostExample();
-        postExample.createCriteria().andIdEqualTo(id);
-        List<Post> posts = postMapper.selectByExample(postExample);
-        PostDTO postDTO = createPostDTO(posts.get(0));
+        Post post = postMapper.selectByPrimaryKey(id);
+        if(post == null) throw new CustomizedException(CustomizedErrorCode.QUESTION_NOT_FOUND);
+        PostDTO postDTO = createPostDTO(post);
 
         return postDTO;
     }
 
     public PostDTO createPostDTO(Post post) {
-        UserExample userExample = new UserExample();
-        userExample.createCriteria().andIdEqualTo(post.getCreator());
-        List<User> users = userMapper.selectByExample(userExample);
-        User user = users.get(0);
+        User user = userMapper.selectByPrimaryKey(post.getCreator());
         PostDTO postDTO = new PostDTO();
         BeanUtils.copyProperties(post, postDTO);
         postDTO.setUser(user);
@@ -96,8 +90,8 @@ public class PostService {
             postMapper.insertSelective(post);
         } else {
             post.setGmtModified(System.currentTimeMillis());
-//            postMapper.updateById(post);
-            postMapper.updateByPrimaryKeySelective(post);
+            int update = postMapper.updateByPrimaryKeySelective(post);
+            if(update != 1) throw new CustomizedException(CustomizedErrorCode.QUESTION_NOT_FOUND);
         }
     }
 }

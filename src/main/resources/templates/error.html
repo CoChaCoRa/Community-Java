@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>BBS demo</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/community.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div th:insert="~{navigation :: nav}"></div>
+
+<div class="card text-center" style="margin:100px;">
+  <div class="card-header">
+    呃呃，出错了
+  </div>
+  <div class="card-body">
+    <h5 class="card-title" th:text="'ERROR : ' + ${code}"></h5>
+    <p class="card-text" th:text="${message}">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="/" class="btn btn-primary">回到首页</a>
+  </div>
+  <div class="card-footer text-muted">
+    <a href="/">回到首页</a>
+  </div>
+</div>
+
+</body>
+</html>
