@@ -2,6 +2,7 @@ package com.example.community.service;
 
 import com.example.community.Exception.CustomizedErrorCode;
 import com.example.community.Exception.CustomizedException;
+import com.example.community.mapper.CustomizedPostMapper;
 import com.example.community.model.Post;
 import com.example.community.model.PostExample;
 import com.example.community.model.User;
@@ -22,6 +23,8 @@ public class PostService {
 
     @Autowired
     private PostMapper postMapper;
+    @Autowired
+    private CustomizedPostMapper customizedPostMapper;
     @Autowired
     private UserMapper userMapper;
 
@@ -50,6 +53,7 @@ public class PostService {
     }
 
     public PostDTO getPostById(Integer id) {
+        incView(id);
         Post post = postMapper.selectByPrimaryKey(id);
         if(post == null) throw new CustomizedException(CustomizedErrorCode.QUESTION_NOT_FOUND);
         PostDTO postDTO = createPostDTO(post);
@@ -93,5 +97,12 @@ public class PostService {
             int update = postMapper.updateByPrimaryKeySelective(post);
             if(update != 1) throw new CustomizedException(CustomizedErrorCode.QUESTION_NOT_FOUND);
         }
+    }
+
+    public void incView(Integer id) {
+        Post post = new Post();
+        post.setId(id);
+        post.setViewCount(1);
+        customizedPostMapper.incView(post);
     }
 }
