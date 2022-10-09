@@ -53,7 +53,6 @@ public class PostService {
     }
 
     public PostDTO getPostById(Integer id) {
-        incView(id);
         Post post = postMapper.selectByPrimaryKey(id);
         if(post == null) throw new CustomizedException(CustomizedErrorCode.QUESTION_NOT_FOUND);
         PostDTO postDTO = createPostDTO(post);
