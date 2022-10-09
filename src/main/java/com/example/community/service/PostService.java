@@ -54,7 +54,7 @@ public class PostService {
 
     public PostDTO getPostById(Integer id) {
         Post post = postMapper.selectByPrimaryKey(id);
-        if(post == null) throw new CustomizedException(CustomizedErrorCode.QUESTION_NOT_FOUND);
+        if(post == null) throw new CustomizedException(CustomizedErrorCode.POST_NOT_FOUND);
         PostDTO postDTO = createPostDTO(post);
 
         return postDTO;
@@ -90,11 +90,14 @@ public class PostService {
         if(post.getId() == null) {
             post.setGmtCreate(System.currentTimeMillis());
             post.setGmtModified(post.getGmtCreate());
+            post.setViewCount(0);
+            post.setCommentCount(0);
+            post.setLikeCount(0);
             postMapper.insertSelective(post);
         } else {
             post.setGmtModified(System.currentTimeMillis());
             int update = postMapper.updateByPrimaryKeySelective(post);
-            if(update != 1) throw new CustomizedException(CustomizedErrorCode.QUESTION_NOT_FOUND);
+            if(update != 1) throw new CustomizedException(CustomizedErrorCode.POST_NOT_FOUND);
         }
     }
 

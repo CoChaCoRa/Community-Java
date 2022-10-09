@@ -20,10 +20,18 @@
   </resultMap>
   <update id="incView" parameterType="com.example.community.model.Post">
     <!--
-      update posts set view_count = view_count + 1 where id = #{id}
+      update posts set view_count = view_count + viewCount where id = #{id}
     -->
     update PUBLIC.POSTS
     set VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
+    where id = #{id}
+  </update>
+  <update id="incComment" parameterType="com.example.community.model.Post">
+    <!--
+      update posts set comment_count = comment_count + commentCount where id = #{id}
+    -->
+    update PUBLIC.POSTS
+    set comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
     where id = #{id}
   </update>
 </mapper>
