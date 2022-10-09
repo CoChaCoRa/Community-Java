@@ -18,3 +18,14 @@
 - [Flyway](https://flywaydb.org/documentation/)
 - [Lombok](https://projectlombok.org/features/)
 - [PageHelper](https://github.com/pagehelper/pagehelper-spring-boot)
+
+# 命令行
+- Database migration
+```shell
+mvn flyway:migrate
+```
+
+- Mybatis Generator
+```shell
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```
