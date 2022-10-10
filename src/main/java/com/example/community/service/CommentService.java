@@ -10,6 +10,7 @@ import com.example.community.model.Comment;
 import com.example.community.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommentService {
@@ -21,6 +22,7 @@ public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
+    @Transactional
     public void insert(Comment comment) {
         if(comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizedException(CustomizedErrorCode.TARGET_PARAM_NOT_FOUND);
