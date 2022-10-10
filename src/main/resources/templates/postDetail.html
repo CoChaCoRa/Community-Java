@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/community.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -72,6 +74,27 @@
                     &nbsp;
                     <span class="list-text-info" th:text="${post.likeCount}"></span>
                 </span>
+            </div>
+<!--            回复-->
+            <div class="col-12">
+                <div class="d-flex p-2" style="margin-bottom: 20px;margin-top: 20px;">
+                    <img th:src="${post.user.avatarUrl}" style="width: 40px;height: 40px;border: 1px solid #ddd;border-radius: 20%;margin-right: 10px;" class="img-fluid">
+                    <span th:text="${session.user.name}" style="align-self: center;"></span>
+                </div>
+            </div>
+            <div class="col-12" >
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <input type="hidden" id="post_id" th:value="${post.id}">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="comment_content" style="height: 100px"></textarea>
+                        <label for="comment_content">点击输入回复</label>
+                    </div>
+                </div>
+<!--                <div class="input-group mb-3">-->
+<!--                    <label class="input-group-text" for="inputGroupFile01">上传附件</label>-->
+<!--                    <input type="file" class="form-control" id="inputGroupFile01">-->
+<!--                </div>-->
+                <button type="submit" class="btn btn-success btn-commit" onclick="commentToPost()">提交</button>
             </div>
         </div>
         <div class="col-xl-3 col-12">
