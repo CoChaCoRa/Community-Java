@@ -33,7 +33,7 @@
         帖子
       </h2>
       <hr>
-      <div class="d-flex list-info"  th:each="post : ${pagination.posts}">
+      <div class="d-flex list-info"  th:each="post : ${pagination.data}">
         <div class="flex-shrink-0">
           <img th:src="${post.user.avatarUrl}" class="avatar">
         </div>

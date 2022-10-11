@@ -82,7 +82,7 @@ public class PostService {
             postDTOList.add(postDTO);
         }
 
-        paginationDTO.setPosts(postDTOList);
+        paginationDTO.setData(postDTOList);
         return paginationDTO;
     }
 
