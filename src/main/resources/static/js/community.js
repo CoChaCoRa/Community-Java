@@ -37,7 +37,8 @@ function post(targetId, type, content) {
                         //获取主机地址，如： http://localhost:8088
                         var localhostPath = curPath.substring(0, pos);
                         //在原来的窗口中打开新的窗口
-                        window.open(localhostPath + "/login");
+//                        window.open(localhostPath + "/login");
+                        window.open("https://github.com/login/oauth/authorize?client_id=7919fd8c770c7c7ab699&redirect_uri=http://localhost:8087/callback&scope=user&state=1");
                         window.localStorage.setItem("closable","true");
                     }
 
