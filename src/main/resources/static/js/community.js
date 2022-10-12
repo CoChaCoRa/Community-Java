@@ -5,6 +5,12 @@ function commentToPost() {
 
 }
 
+function commentToComment(e) {
+    var commentId = e.getAttribute("data-id");
+    var content = $("#input-" + commentId).val();
+    post(commentId,2,content);
+}
+
 function post(targetId, type, content) {
     if (!content) {
         alert("内容为空.......");
@@ -51,5 +57,11 @@ function post(targetId, type, content) {
         },
         dataType: "json"
     })
+
+}
+
+function thumbComments(e) {
+
+    console.log("thumb up");
 
 }
