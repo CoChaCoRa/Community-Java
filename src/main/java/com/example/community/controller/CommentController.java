@@ -3,18 +3,18 @@ package com.example.community.controller;
 import com.example.community.Exception.CustomizedErrorCode;
 import com.example.community.dto.CommentDTO;
 import com.example.community.dto.ResultDTO;
+import com.example.community.enums.CommentTypeEnum;
 import com.example.community.mapper.CommentMapper;
 import com.example.community.model.Comment;
 import com.example.community.model.User;
 import com.example.community.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -45,4 +45,14 @@ public class CommentController {
 
         return ResultDTO.success();
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
+    public ResultDTO<List<CommentDTO>> getList(@PathVariable(name = "id") Integer id,
+                                               Model model) {
+
+        List<CommentDTO> commentDTOList = commentService.getListByParentId(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.success(commentDTOList);
+    }
+
 }

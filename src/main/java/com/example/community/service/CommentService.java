@@ -4,10 +4,7 @@ import com.example.community.Exception.CustomizedErrorCode;
 import com.example.community.Exception.CustomizedException;
 import com.example.community.dto.CommentDTO;
 import com.example.community.enums.CommentTypeEnum;
-import com.example.community.mapper.CommentMapper;
-import com.example.community.mapper.CustomizedPostMapper;
-import com.example.community.mapper.PostMapper;
-import com.example.community.mapper.UserMapper;
+import com.example.community.mapper.*;
 import com.example.community.model.Comment;
 import com.example.community.model.CommentExample;
 import com.example.community.model.Post;
@@ -30,6 +27,8 @@ public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
     @Autowired
+    private CustomizedCommentMapper customizedCommentMapper;
+    @Autowired
     private UserMapper userMapper;
 
     @Transactional
@@ -51,7 +50,7 @@ public class CommentService {
             customizedPostMapper.incComment(dbPost);
         } else {
             // 回复comment
-            Comment dbComment = commentMapper.selectByPrimaryKey(Long.valueOf(comment.getParentId()));
+            Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
             if (dbComment == null) {
                 throw new CustomizedException(CustomizedErrorCode.COMMENT_NOT_FOUND);
             }
@@ -60,6 +59,10 @@ public class CommentService {
                 throw new CustomizedException(CustomizedErrorCode.POST_NOT_FOUND);
             }
             commentMapper.insertSelective(comment);
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            customizedCommentMapper.incComment(parentComment);
             dbPost.setCommentCount(1);
             customizedPostMapper.incComment(dbPost);
         }

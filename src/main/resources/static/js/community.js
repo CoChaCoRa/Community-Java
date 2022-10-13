@@ -53,7 +53,7 @@ function post(targetId, type, content) {
                 }
 
             }
-//            console.log(response);
+            console.log(response);
         },
         dataType: "json"
     })
