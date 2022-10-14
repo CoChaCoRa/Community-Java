@@ -66,15 +66,17 @@ function queryComments(e){
     var comments = $('#' + id);
     // 获取二级评论展开状态
     var collapse = e.getAttribute("aria-expanded");
-    if (collapse === 'true'){
+    // 第一次展开时执行get请求
+    if (collapse === 'true' && comments.children().length == 1){
         var commentElement = $("<div />", {
                                 "class" : "list-info"
                              });
         comments.prepend(commentElement);
         $.getJSON("/comment/" + id.split('-')[1], function (data) {
-                        console.log(data);
+//                        console.log(data);
                         $.each(data.data, function(index, comment) {
 
+                            // 头像div
                             var avatar = $("<div />", {
                                 "class" : "flex-shrink-0"
                             }).append($("<img />", {
@@ -83,15 +85,18 @@ function queryComments(e){
                                 "src" : comment.user != null ? comment.user.avatarUrl :'/images/default-avatar.png'
                             }));
 
+                            // 用户名div
                             var userInfo = $("<div/>").append($("<span/>", {
                                 "style" : "align-self: center; font-size: 14px;",
                                 "text" : comment.user!= null ? comment.user.name:'已注销用户'
                             }));
 
+                            // 评论时间div
                             var timeInfo = $("<div/>").append($("<span/>", {
                                "style" : "align-self: center; font-size: 14px;",
                                "text" : dayjs(comment.gmtCreate).format('YYYY/MM/DD HH:mm')
                             }));
+
 
                             var info = $("<div/>").append(userInfo).append(timeInfo);
 
@@ -125,6 +130,8 @@ function queryComments(e){
     }
 
 }
+
+function reply()
 
 function thumbComments(e) {
 
