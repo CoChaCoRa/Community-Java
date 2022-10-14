@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/community.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.5/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -93,38 +94,13 @@
                         <!--二级评论-->
                         <button type="button" class="btn btn-labeled btn-outline-dark btn-sm ms-2"
                                 data-bs-toggle="collapse" th:href="'#comment-' + ${comment.id}" role="button"
+                                onclick="queryComments(this)"
                                 aria-expanded="false" th:aria-controls="'comment-' + ${comment.id}">
                             <span class="btn-label"><i class="bi bi-chat-dots"></i></span>
                             <span th:text="${comment.commentCount}"></span>
                         </button>
                         <!--二级评论列表-->
                         <div class="collapse mt-2 ms-4" th:id="'comment-' + ${comment.id}">
-                            <div class="list-info"  th:each="comment : ${secondaryComments}">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        <img th:src="${comment.user!= null ? comment.user.avatarUrl:'/images/default-avatar.png'}"
-                                             style="width: 40px;height: 40px;border: 1px solid #ddd;border-radius: 20%;margin-right: 10px;"
-                                             class="img-fluid">
-                                    </div>
-                                    <div>
-                                        <div>
-                                            <span th:text="${comment.user!= null ? comment.user.name:'已注销用户'}" style="align-self: center; font-size: 14px;"> </span>
-                                        </div>
-                                        <div>
-                                            <span th:text="${#calendars.format(comment.gmtCreate,'yyyy-MM-dd HH:mm')}" style="align-self: center; font-size: 14px;"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12" style="margin-top: 10px; font-size: 16px;">
-                                    <span th:text="${comment.content}"></span>
-                                    <button type="button" class="btn btn-labeled btn-outline-dark btn-sm"
-                                            style="float: right;"
-                                            onclick="thumbComments(this)">
-                                        <span class="btn-label"><i class="bi bi-reply"></i></span>
-                                        回复
-                                    </button>
-                                </div>
-                            </div>
                             <!--二级评论回复-->
                             <div class="d-flex" style="margin-bottom: 20px;margin-top: 20px;">
                                 <img th:src="${session.user!= null ? session.user.avatarUrl:'/images/default-avatar.png'}"

@@ -60,6 +60,72 @@ function post(targetId, type, content) {
 
 }
 
+function queryComments(e){
+
+    var id = e.getAttribute("aria-controls");
+    var comments = $('#' + id);
+    // 获取二级评论展开状态
+    var collapse = e.getAttribute("aria-expanded");
+    if (collapse === 'true'){
+        var commentElement = $("<div />", {
+                                "class" : "list-info"
+                             });
+        comments.prepend(commentElement);
+        $.getJSON("/comment/" + id.split('-')[1], function (data) {
+                        console.log(data);
+                        $.each(data.data, function(index, comment) {
+
+                            var avatar = $("<div />", {
+                                "class" : "flex-shrink-0"
+                            }).append($("<img />", {
+                                "class" : "img-fluid",
+                                "style" : "width: 40px;height: 40px;border: 1px solid #ddd;border-radius: 20%;margin-right: 10px;",
+                                "src" : comment.user != null ? comment.user.avatarUrl :'/images/default-avatar.png'
+                            }));
+
+                            var userInfo = $("<div/>").append($("<span/>", {
+                                "style" : "align-self: center; font-size: 14px;",
+                                "text" : comment.user!= null ? comment.user.name:'已注销用户'
+                            }));
+
+                            var timeInfo = $("<div/>").append($("<span/>", {
+                               "style" : "align-self: center; font-size: 14px;",
+                               "text" : dayjs(comment.gmtCreate).format('YYYY/MM/DD HH:mm')
+                            }));
+
+                            var info = $("<div/>").append(userInfo).append(timeInfo);
+
+                            var commentFlex = $("<div />", {
+                                "class" : "d-flex mt-2"
+                            }).append(avatar).append(info);
+
+                            var content = $("<div/>", {
+                                "class" : "col-12",
+                                "style" : "margin-top: 10px; font-size: 16px;"
+                            }).append($("<span/>", {
+                                "text" : comment.content
+                            }));
+
+                            var replyButton = $("<button/>", {
+                                "type" : "button",
+                                "class" : "btn btn-labeled btn-outline-dark btn-sm",
+                                "style" : "float: right;",
+                                "on-click" : "reply(this)"
+                            }).append($("<span/>", {
+                                "class" : "btn-label"
+                            })).append($("<i/>", {
+                                "class" : "bi bi-reply"
+                            }));
+                            content.append(replyButton);
+
+                            commentElement.prepend(content).prepend(commentFlex);
+                        });
+
+        });
+    }
+
+}
+
 function thumbComments(e) {
 
     console.log("thumb up");
