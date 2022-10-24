@@ -11,6 +11,7 @@ import com.example.community.dto.PostDTO;
 import com.example.community.mapper.PostMapper;
 import com.example.community.mapper.UserMapper;
 import com.github.pagehelper.PageHelper;
+import org.h2.util.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,9 @@ public class PostService {
 
     public PaginationDTO getList(Integer pageIndex, Integer pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
-        List<Post> posts = postMapper.selectByExample(new PostExample());
+        PostExample postExample = new PostExample();
+        postExample.setOrderByClause("gmt_modified desc");
+        List<Post> posts = postMapper.selectByExample(postExample);
         long totalCount = postMapper.countByExample(new PostExample());
 
         PaginationDTO paginationDTO = createPaginationDTO(posts, totalCount, pageIndex, pageSize);
@@ -106,5 +109,31 @@ public class PostService {
         post.setId(id);
         post.setViewCount(1);
         customizedPostMapper.incView(post);
+    }
+
+    public List<PostDTO> getRelatedListByTag(Integer id) {
+
+        Post post = postMapper.selectByPrimaryKey(id);
+        String tag = post.getTag();
+
+        if(StringUtils.isNullOrEmpty(tag)) {
+            return new ArrayList<>();
+        }
+
+        PostExample postExample = new PostExample();
+        postExample.createCriteria()
+                .andTagLike("%" + tag + "%")
+                .andIdNotEqualTo(id);
+        postExample.setOrderByClause("gmt_create desc");
+        List<Post> relatedPosts = postMapper.selectByExample(postExample);
+
+        List<PostDTO> relatedPostDTOs = new ArrayList<>();
+        for(Post relatedPost : relatedPosts) {
+            PostDTO postDTO = new PostDTO();
+            BeanUtils.copyProperties(relatedPost, postDTO);
+            relatedPostDTOs.add(postDTO);
+        }
+
+        return relatedPostDTOs;
     }
 }

@@ -40,3 +40,8 @@ body {
     text-decoration: none;
     --bs-link-hover-color: var(--bs-link-color);
 }
+
+.post-related {
+    margin-top: 15px;
+    font-size: 20px;
+}
