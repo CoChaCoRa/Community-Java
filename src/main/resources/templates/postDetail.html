@@ -152,9 +152,13 @@
             </div>
             <hr>
             <div class="col-12">
-                <h2>
-                    TODO:相关话题
-                </h2>
+                <div style="text-align:center;">
+                    <h3>相关话题</h3>
+                </div>
+                <div class="post-related"  th:each="relatedPost : ${relatedPosts}">
+                    <i class="bi bi-caret-right"></i>
+                    <a th:href="@{'/postDetail/'+${relatedPost.id}}" th:text="${relatedPost.title}" class="post-href"></a>
+                </div>
             </div>
         </div>
     </div>

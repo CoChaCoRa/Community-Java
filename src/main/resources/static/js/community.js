@@ -131,8 +131,6 @@ function queryComments(e){
 
 }
 
-function reply()
-
 function thumbComments(e) {
 
     console.log("thumb up");

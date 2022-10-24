@@ -32,6 +32,9 @@ public class PostController {
         List<CommentDTO> comments = commentService.getListByParentId(id, CommentTypeEnum.POST);
         model.addAttribute("comments",comments);
 
+        List<PostDTO> relatedPosts = postService.getRelatedListByTag(id);
+        model.addAttribute("relatedPosts", relatedPosts);
+
         return "postDetail";
     }
 }
