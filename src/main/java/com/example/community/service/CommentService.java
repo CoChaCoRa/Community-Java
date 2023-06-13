@@ -3,11 +3,14 @@ package com.example.community.service;
 import com.example.community.Exception.CustomizedErrorCode;
 import com.example.community.Exception.CustomizedException;
 import com.example.community.dto.CommentDTO;
+import com.example.community.dto.PaginationDTO;
 import com.example.community.enums.CommentTypeEnum;
 import com.example.community.mapper.*;
 import com.example.community.model.Comment;
 import com.example.community.model.CommentExample;
 import com.example.community.model.Post;
+import com.example.community.model.User;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,5 +89,45 @@ public class CommentService {
         }).collect(Collectors.toList());
 
         return commentDTOs;
+    }
+
+    public PaginationDTO getListByCreator(Integer id, Integer pageIndex, Integer pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
+        CommentExample commentExample = new CommentExample();
+        commentExample.createCriteria().andCreatorEqualTo(id);
+        List<Comment> comments = commentMapper.selectByExample(commentExample);
+        commentExample.clear();
+        commentExample.createCriteria().andCreatorEqualTo(id);
+        long totalCount = commentMapper.countByExample(commentExample);
+
+        PaginationDTO paginationDTO = createPaginationDTO(comments, totalCount, pageIndex, pageSize);
+
+        return paginationDTO;
+    }
+
+    public CommentDTO createCommentDTO(Comment comment) {
+        User user = userMapper.selectByPrimaryKey(comment.getCreator());
+        CommentDTO commentDTO = new CommentDTO();
+        BeanUtils.copyProperties(comment, commentDTO);
+        commentDTO.setUser(user);
+
+        return commentDTO;
+    }
+
+    public PaginationDTO createPaginationDTO(List<Comment> comments,
+                                             long totalCount,
+                                             Integer pageIndex,
+                                             Integer pageSize) {
+        PaginationDTO paginationDTO = new PaginationDTO();
+        paginationDTO.setPaginationDTO(totalCount, pageIndex, pageSize);
+
+        List<CommentDTO> commentDTOList = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentDTO commentDTO = createCommentDTO(comment);
+            commentDTOList.add(commentDTO);
+        }
+
+        paginationDTO.setData(commentDTOList);
+        return paginationDTO;
     }
 }

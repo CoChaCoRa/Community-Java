@@ -1,17 +1,17 @@
 package com.example.community.controller;
 
-import com.example.community.model.User;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.mapper.UserMapper;
+import com.example.community.model.User;
+import com.example.community.service.CommentService;
 import com.example.community.service.PostService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProfileController {
@@ -20,6 +20,8 @@ public class ProfileController {
     private UserMapper userMapper;
     @Autowired
     private PostService postService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/profile/{section}")
     public String profile(HttpServletRequest request,
@@ -34,19 +36,21 @@ public class ProfileController {
         }
 
         model.addAttribute("section", section);
+        PaginationDTO paginationDTO = new PaginationDTO();
         switch (section) {
             case "myPosts":
                 model.addAttribute("sectionName","我的帖子");
+                paginationDTO = postService.getListByCreator(user.getId(),pageIndex,pageSize);
+                model.addAttribute("pagination",paginationDTO);
                 break;
             case "myReplies":
                 model.addAttribute("sectionName","我的回复");
+                paginationDTO = commentService.getListByCreator(user.getId(), pageIndex, pageSize);
+                model.addAttribute("pagination",paginationDTO);
                 break;
             default:
                 model.addAttribute("sectionName","");
         }
-
-        PaginationDTO paginationDTO = postService.getListByCreator(user.getId(),pageIndex,pageSize);
-        model.addAttribute("pagination",paginationDTO);
 
         return "profile";
     }
