@@ -27,7 +27,7 @@ public class UserService {
         } else {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
+            userMapper.insertSelective(user);
         }
     }
 }
