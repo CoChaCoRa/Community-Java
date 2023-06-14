@@ -57,6 +57,7 @@ public class NotificationService {
         User notifierUser = userMapper.selectByPrimaryKey(notification.getNotifier());
         NotificationDTO notificationDTO = new NotificationDTO();
         BeanUtils.copyProperties(notification, notificationDTO);
+        notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
         notificationDTO.setNotifierUser(notifierUser);
 
         return notificationDTO;
