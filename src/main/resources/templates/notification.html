@@ -24,7 +24,10 @@
           <img th:src="${notification.notifierUser.avatarUrl}" class="avatar">
         </div>
         <div class="flex-grow-1 ms-3">
-          <h5><a th:text="${notification.notifierName}"></a></h5>
+          <h5>
+            <a th:text="${notification.notifierName}"></a>
+            <span th:if="${notification.status == 0}" class="badge bg-primary">未读</span>
+          </h5>
           <span th:if="${notification.type == 1}">
             <a th:text="'回复了你的帖子：' + ${notification.outerTitle}" th:href="@{'/notification/'+${notification.id}}" class="post-href"></a>
           </span>
