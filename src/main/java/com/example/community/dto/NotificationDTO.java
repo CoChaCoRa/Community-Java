@@ -13,7 +13,7 @@ public class NotificationDTO {
     private String outerTitle;
     private Integer type;
     private String typeName;
-    private Long gmt_create;
+    private Long gmtCreate;
     private Integer status;
     private User notifierUser;
 }

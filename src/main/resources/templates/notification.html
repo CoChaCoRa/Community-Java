@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>BBS demo</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/community.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div th:insert="~{navigation :: nav}"></div>
+
+<div class="container-fluid">
+  <div class="row main">
+    <div class="col-xl-9 col-12">
+      <h2>
+        <span th:text="消息中心"></span>
+      </h2>
+      <hr>
+      <div class="d-flex list-info" th:each="notification : ${pagination.data}">
+        <div class="flex-shrink-0">
+          <img th:src="${notification.notifierUser.avatarUrl}" class="avatar">
+        </div>
+        <div class="flex-grow-1 ms-3">
+          <h5><a th:text="${notification.notifierName}"></a></h5>
+          <span th:if="${notification.type == 1}">
+            <a th:text="'回复了你的帖子：' + ${notification.outerTitle}" th:href="@{'/notification/'+${notification.id}}" class="post-href"></a>
+          </span>
+          <span th:if="${notification.type == 2}">
+            <a th:text="'回复了你在帖子下的评论：' + ${notification.outerTitle}" th:href="@{'/notification/'+${notification.id}}" class="post-href"></a>
+          </span>
+          <div class="d-flex flex-row bd-highlight">
+            <div class="p-2 bd-highlight">
+              <i class="bi bi-clock"></i>
+              <span class="list-text-info ms-1" th:text="${#calendars.format(notification.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item" th:if="${pagination.showFirst}">
+            <a class="page-link" href="@{'/profile/'+${section}(page=${1})}" aria-label="First">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item" th:if="${pagination.showPrevious}">
+            <a class="page-link" th:href="@{'/profile/'+${section}(page=${pagination.currentPage - 1})}" aria-label="Previous">
+              <span aria-hidden="true">&lt;</span>
+            </a>
+          </li>
+          <li class="page-item" th:each="page : ${pagination.pages}" th:class="${pagination.currentPage == page}? 'active' : ''">
+            <a class="page-link" th:href="@{'/profile/'+${section}(page=${page})}" th:text="${page}"></a>
+          </li>
+          <li class="page-item" th:if="${pagination.showNext}">
+            <a class="page-link" th:href="@{'/profile/'+${section}(page=${pagination.currentPage + 1})}" aria-label="Next">
+              <span aria-hidden="true">&gt;</span>
+            </a>
+          </li>
+          <li class="page-item" th:if="${pagination.showEnd}">
+            <a class="page-link" th:href="@{'/profile/'+${section}(page=${pagination.totalPages})}" aria-label="End">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

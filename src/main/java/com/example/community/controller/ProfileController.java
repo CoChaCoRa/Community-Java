@@ -44,20 +44,16 @@ public class ProfileController {
             case "myPosts":
                 model.addAttribute("sectionName","我的帖子");
                 paginationDTO = postService.getListByCreator(user.getId(),pageIndex,pageSize);
-                model.addAttribute("pagination",paginationDTO);
                 break;
             case "myReplies":
                 model.addAttribute("sectionName","我的回复");
                 paginationDTO = commentService.getListByCreator(user.getId(), pageIndex, pageSize);
-                model.addAttribute("pagination",paginationDTO);
                 break;
-            case "myNotifications":
-                model.addAttribute("sectionName","我的消息");
-                notificationService.getListByReceiver(user.getId(), pageIndex, pageSize);
-                model.addAttribute("pagination",paginationDTO);
             default:
                 model.addAttribute("sectionName","");
         }
+
+        model.addAttribute("pagination",paginationDTO);
 
         return "profile";
     }
