@@ -30,7 +30,7 @@
         <table schema="public" tableName="users" domainObjectName="User" ></table>
         <table schema="public" tableName="posts" domainObjectName="Post" ></table>
         <table schema="public" tableName="comments" domainObjectName="Comment" ></table>
-        <table schema="public" tableName="notification" domainObjectName="Notifiication"></table>
+        <table schema="public" tableName="notification" domainObjectName="Notification"></table>
 
     </context>
 </generatorConfiguration>

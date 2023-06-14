@@ -4,6 +4,7 @@ import com.example.community.dto.PaginationDTO;
 import com.example.community.mapper.UserMapper;
 import com.example.community.model.User;
 import com.example.community.service.CommentService;
+import com.example.community.service.NotificationService;
 import com.example.community.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class ProfileController {
     private PostService postService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/profile/{section}")
     public String profile(HttpServletRequest request,
@@ -48,6 +51,10 @@ public class ProfileController {
                 paginationDTO = commentService.getListByCreator(user.getId(), pageIndex, pageSize);
                 model.addAttribute("pagination",paginationDTO);
                 break;
+            case "myNotifications":
+                model.addAttribute("sectionName","我的消息");
+                notificationService.getListByReceiver(user.getId(), pageIndex, pageSize);
+                model.addAttribute("pagination",paginationDTO);
             default:
                 model.addAttribute("sectionName","");
         }

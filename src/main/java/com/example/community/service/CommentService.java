@@ -5,11 +5,10 @@ import com.example.community.Exception.CustomizedException;
 import com.example.community.dto.CommentDTO;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.enums.CommentTypeEnum;
+import com.example.community.enums.NotificationStatusEnum;
+import com.example.community.enums.NotificationTypeEnum;
 import com.example.community.mapper.*;
-import com.example.community.model.Comment;
-import com.example.community.model.CommentExample;
-import com.example.community.model.Post;
-import com.example.community.model.User;
+import com.example.community.model.*;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,8 @@ public class CommentService {
     private CustomizedCommentMapper customizedCommentMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
     @Transactional
     public void insert(Comment comment) {
@@ -42,6 +43,7 @@ public class CommentService {
         if (comment.getParentType() == null || !CommentTypeEnum.contains(comment.getParentType())) {
             throw new CustomizedException(CustomizedErrorCode.TYPE_PARAM_WRONG);
         }
+        User user = userMapper.selectByPrimaryKey(comment.getCreator());
         if (comment.getParentType() == CommentTypeEnum.POST.getType()) {
             // 回复post
             Post dbPost = postMapper.selectByPrimaryKey(comment.getParentId());
@@ -51,6 +53,8 @@ public class CommentService {
             commentMapper.insertSelective(comment);
             dbPost.setCommentCount(1);
             customizedPostMapper.incComment(dbPost);
+            // 创建消息通知
+            createNotification(comment, dbPost.getCreator(), user.getName(), dbPost.getId(), dbPost.getTitle(), NotificationTypeEnum.REPLY_POST);
         } else {
             // 回复comment
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
@@ -68,7 +72,26 @@ public class CommentService {
             customizedCommentMapper.incComment(parentComment);
             dbPost.setCommentCount(1);
             customizedPostMapper.incComment(dbPost);
+            // 创建消息通知
+            createNotification(comment, dbComment.getCreator(), user.getName(), dbPost.getId(), dbPost.getTitle(), NotificationTypeEnum.REPLY_COMMENT);
         }
+    }
+
+    public void createNotification(Comment comment, Integer receiver, String notifierName, Integer outerId, String outerTitle, NotificationTypeEnum notificationTypeEnum){
+        if(comment.getCreator() == receiver){
+            return;
+        }
+        Notification notification = new Notification();
+        notification.setReceiver(receiver);
+        notification.setNotifier(comment.getCreator());
+        notification.setNotifierName(notifierName);
+        notification.setOuterid(outerId);
+        notification.setOuterTitle(outerTitle);
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationTypeEnum.getType());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+
+        notificationMapper.insertSelective(notification);
     }
 
     public List<CommentDTO> getListByParentId(Integer id, CommentTypeEnum type) {
