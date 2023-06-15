@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>BBS demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div th:insert="~{navigation :: nav}"></div>
+
+<div class="container-fluid">
+    <div class="row main">
+        <div class="col-xl-3 col-12">
+            <div class="card" style="width: 18rem;">
+                <img th:src="${user.avatarUrl}" class="card-img-top" alt="无头像">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${user.name}"></h5>
+                    <p class="card-text">这个人什么也没有写</p>
+                    <a href="#" class="btn btn-primary">编辑资料</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-12">
+            <h2>
+                <span>个人资料</span>
+            </h2>
+            <hr>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
