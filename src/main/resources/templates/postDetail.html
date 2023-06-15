@@ -87,6 +87,8 @@
                     </div>
                     <div class="col-12" style="margin-top: 10px; font-size: 14px;">
                         <button type="button" class="btn btn-labeled btn-outline-dark btn-sm"
+                                th:id="${'thumb-'+comment.id}"
+                                th:data-id="${comment.id+'/'+session.user.id+'/'+post.id}"
                                 onclick="thumbComments(this)">
                             <span class="btn-label"><i class="bi bi-heart"></i></span>
                             <span th:text="${comment.likeCount}"></span>

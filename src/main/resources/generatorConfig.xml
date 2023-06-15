@@ -31,6 +31,7 @@
         <table schema="public" tableName="posts" domainObjectName="Post" ></table>
         <table schema="public" tableName="comments" domainObjectName="Comment" ></table>
         <table schema="public" tableName="notification" domainObjectName="Notification"></table>
+        <table schema="public" tableName="thumb" domainObjectName="Thumb"></table>
 
     </context>
 </generatorConfiguration>

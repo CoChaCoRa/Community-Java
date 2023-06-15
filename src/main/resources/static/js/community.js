@@ -53,7 +53,7 @@ function post(targetId, type, content) {
                 }
 
             }
-            console.log(response);
+//            console.log(response);
         },
         dataType: "json"
     })
@@ -133,6 +133,11 @@ function queryComments(e){
 
 function thumbComments(e) {
 
-    console.log("thumb up");
+    var thumbId = e.getAttribute("id");
+    var url = e.getAttribute("data-id");
+    var tags =$("#"+thumbId).children("#thumbChildElement");
 
+    $.getJSON("/thumb/" + url ,function(data) {
+        tags.html(data);
+    });
 }
