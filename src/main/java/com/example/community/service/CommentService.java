@@ -118,6 +118,7 @@ public class CommentService {
         PageHelper.startPage(pageIndex, pageSize);
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria().andCreatorEqualTo(id);
+        commentExample.setOrderByClause("gmt_create desc");
         List<Comment> comments = commentMapper.selectByExample(commentExample);
         commentExample.clear();
         commentExample.createCriteria().andCreatorEqualTo(id);

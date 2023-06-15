@@ -34,6 +34,9 @@
           <span th:if="${notification.type == 2}">
             <a th:text="'回复了你在帖子下的评论：' + ${notification.outerTitle}" th:href="@{'/notification/'+${notification.id}}" class="post-href"></a>
           </span>
+          <span th:if="${notification.type == 3}">
+            <a th:text="'点赞了你在帖子下的评论：' + ${notification.outerTitle}" th:href="@{'/notification/'+${notification.id}}" class="post-href"></a>
+          </span>
           <div class="d-flex flex-row bd-highlight">
             <div class="p-2 bd-highlight">
               <i class="bi bi-clock"></i>
@@ -45,25 +48,25 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination">
           <li class="page-item" th:if="${pagination.showFirst}">
-            <a class="page-link" href="@{'/profile/'+${section}(page=${1})}" aria-label="First">
+            <a class="page-link" href="@{/notification(page=${1})}" aria-label="First">
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
           <li class="page-item" th:if="${pagination.showPrevious}">
-            <a class="page-link" th:href="@{'/profile/'+${section}(page=${pagination.currentPage - 1})}" aria-label="Previous">
+            <a class="page-link" th:href="@{/notification(page=${pagination.currentPage - 1})}" aria-label="Previous">
               <span aria-hidden="true">&lt;</span>
             </a>
           </li>
           <li class="page-item" th:each="page : ${pagination.pages}" th:class="${pagination.currentPage == page}? 'active' : ''">
-            <a class="page-link" th:href="@{'/profile/'+${section}(page=${page})}" th:text="${page}"></a>
+            <a class="page-link" th:href="@{/notification(page=${page})}" th:text="${page}"></a>
           </li>
           <li class="page-item" th:if="${pagination.showNext}">
-            <a class="page-link" th:href="@{'/profile/'+${section}(page=${pagination.currentPage + 1})}" aria-label="Next">
+            <a class="page-link" th:href="@{/notification(page=${pagination.currentPage + 1})}" aria-label="Next">
               <span aria-hidden="true">&gt;</span>
             </a>
           </li>
           <li class="page-item" th:if="${pagination.showEnd}">
-            <a class="page-link" th:href="@{'/profile/'+${section}(page=${pagination.totalPages})}" aria-label="End">
+            <a class="page-link" th:href="@{/notification(page=${pagination.totalPages})}" aria-label="End">
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>

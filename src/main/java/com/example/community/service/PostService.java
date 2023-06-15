@@ -45,6 +45,7 @@ public class PostService {
         PageHelper.startPage(pageIndex, pageSize);
         PostExample postExample = new PostExample();
         postExample.createCriteria().andCreatorEqualTo(id);
+        postExample.setOrderByClause("gmt_modified desc");
         List<Post> posts = postMapper.selectByExample(postExample);
         postExample.clear();
         postExample.createCriteria().andCreatorEqualTo(id);

@@ -30,6 +30,7 @@ public class NotificationService {
         PageHelper.startPage(pageIndex, pageSize);
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria().andReceiverEqualTo(receiver);
+        notificationExample.setOrderByClause("gmt_create desc");
         List<Notification> notifications = notificationMapper.selectByExample(notificationExample);
         notificationExample.clear();
         notificationExample.createCriteria().andReceiverEqualTo(receiver);
