@@ -9,6 +9,7 @@ public enum CustomizedErrorCode implements ICustomizedErrorCode{
     COMMENT_IS_EMPTY(2006, "评论为空"),
     READ_NOTIFICATION_FAIL(2007, "消息读取错误"),
     NOTIFICATION_NOT_FOUND(2008, "消息未找到"),
+    ALREADY_LOGGED_IN(2009, "该邮箱已注册"),
     SYS_ERROR(2099, "服务端出错");
 
     private String message;

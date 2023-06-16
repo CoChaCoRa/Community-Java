@@ -141,3 +141,54 @@ function thumbComments(e) {
         tags.html(data);
     });
 }
+
+function sendActiveEmail() {
+    var email= $("#InputEmail").val();
+    if (email == null || email.trim().length === 0) {
+        alert("请输入邮箱！");
+        return;
+    }
+    var name = $("#InputName").val();
+    if (name == null || name.trim().length === 0) {
+        alert("请输入用户名！");
+        return;
+    }
+    var pwd1 = $("#InputPassword1").val();
+    var pwd2 = $("#InputPassword2").val();
+    if(pwd1 == null || pwd2 == null) {
+        alert("请输入并确认密码！");
+        return;
+    }
+    if(pwd1 != pwd2) {
+        alert("密码不一致！");
+        return;
+    }
+    $.getJSON("/sendActiveEmail/" + email,function (data) {
+        if (data.code === 200) {
+            invokeSetTime("#send-email-btn");
+        } else {
+            alert(data.message);
+        }
+    });
+}
+
+function invokeSetTime(obj) {
+    let countdown = 60;
+    setTime(obj);
+
+    function setTime(obj) {
+        if (countdown === 0) {
+            $(obj).attr("disabled", false);
+            $(obj).text("发送验证码");
+            countdown = 60;
+            return;
+        } else {
+            $(obj).attr("disabled", true);
+            $(obj).text("(" + countdown + ") 秒 再次发送");
+            countdown--;
+        }
+        setTimeout(function () {
+            setTime(obj)
+        }, 1000);
+    }
+}
