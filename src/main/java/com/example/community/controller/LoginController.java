@@ -34,6 +34,12 @@ public class LoginController {
         String email = request.getParameter("InputEmail");
         String password = request.getParameter("InputPassword1");
         String rememberFlag = request.getParameter("rememberFlag"); // rememberFlag != null
+        String imageCode = request.getParameter("validateCode");
+        String kaptchaCode = request.getSession().getAttribute("kaptchaCode").toString();
+        if(imageCode == null || kaptchaCode == null || !imageCode.equalsIgnoreCase(kaptchaCode)){
+            model.addAttribute("loginFail", "验证码错误");
+            return "login";
+        }
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andEmailEqualTo(email);

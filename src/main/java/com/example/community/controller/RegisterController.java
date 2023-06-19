@@ -42,6 +42,11 @@ public class RegisterController {
         String code = request.getParameter("InputActiveCode");
         Cookie[] cookies = request.getCookies();
 
+        if(!password1.equals(password2)){
+            model.addAttribute("signupFail", "密码不一致");
+            return "register";
+        }
+
         Boolean codeMatch = false;
         if(cookies != null && cookies.length != 0) {
             for(Cookie cookie : cookies){
@@ -55,7 +60,7 @@ public class RegisterController {
             }
         }
 
-        if(codeMatch && password1.equals(password2)){
+        if(codeMatch){
             User user = new User();
             user.setEmail(email);
             user.setName(name);
@@ -64,11 +69,10 @@ public class RegisterController {
             user.setPassword(encryptedPassword);
             user.setAvatarUrl("/images/default-avatar.png");
             userService.registerUser(user);
-            model.addAttribute("signupResult","success");
             return "redirect:/";
         }
         else {
-            model.addAttribute("signupResult", "fail");
+            model.addAttribute("signupFail", "验证码错误");
             return "register";
         }
     }

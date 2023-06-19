@@ -192,3 +192,8 @@ function invokeSetTime(obj) {
         }, 1000);
     }
 }
+
+function refreshImageCode(){
+    var path = "/imageCode?p=" + Math.random();
+    $("#imageCode").attr("src", path);
+}

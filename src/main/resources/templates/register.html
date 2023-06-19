@@ -44,7 +44,9 @@
         </label>
         <input type="text" class="form-control" id="InputActiveCode" name="InputActiveCode" required>
       </div>
-      <span th:if="${signupResult == 'success'}" class="red">注册成功</span>
+      <div class="alert alert-danger" role="alert" th:if="${signupFail!=null}">
+        <span th:text="${signupFail}"></span>
+      </div>
       <button type="submit" class="btn btn-primary">注册</button>
     </form>
   </div>
