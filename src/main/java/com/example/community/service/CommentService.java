@@ -78,9 +78,9 @@ public class CommentService {
     }
 
     public void createNotification(Comment comment, Integer receiver, String notifierName, Integer outerId, String outerTitle, NotificationTypeEnum notificationTypeEnum){
-//        if(comment.getCreator() == receiver){
-//            return;
-//        }
+        if(comment.getCreator() == receiver){
+            return;
+        }
         Notification notification = new Notification();
         notification.setReceiver(receiver);
         notification.setNotifier(comment.getCreator());

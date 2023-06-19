@@ -62,7 +62,7 @@ public class RegisterController {
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             String encryptedPassword = bCryptPasswordEncoder.encode(password1);
             user.setPassword(encryptedPassword);
-            user.setAvatarUrl("static/images/default-avatar.png");
+            user.setAvatarUrl("/images/default-avatar.png");
             userService.registerUser(user);
             model.addAttribute("signupResult","success");
             return "redirect:/";

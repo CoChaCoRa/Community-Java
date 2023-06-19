@@ -17,6 +17,14 @@ body {
     border-radius: 15px;
 }
 
+.avatar-intro {
+    align-self: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 128px;
+    border-radius: 15px;
+}
+
 .list-text-info {
     font-size: 13px;
     color: #999;
